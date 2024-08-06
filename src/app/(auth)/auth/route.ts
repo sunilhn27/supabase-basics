@@ -4,7 +4,7 @@ import { type NextRequest } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 
-export async function PUT(request: NextRequest) {
+export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     console.log(searchParams)
     const token_hash = searchParams.get('token_hash')
