@@ -28,13 +28,31 @@ export async function login(formData: FormData) {
 
 export async function signup(formData: FormData) {
     const supabase = createClient()
-
+   console.log("signup")
     const data = {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
     }
     console.log("signUp" + data.email)
     const { error } = await supabase.auth.signUp(data)
+    console.log(error);
+    if (error) {
+        console.log("not signed Up")
+        redirect('/login')
+    }
+
+    revalidatePath('/homepage', 'layout')
+    redirect('/homepage')
+}
+
+export async function signInWithGithub() {
+    const supabase = createClient()
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+            redirectTo: `http://localhost.com/auth/callback`,
+          },
+    })
     console.log(error);
     if (error) {
         console.log("not signed Up")
